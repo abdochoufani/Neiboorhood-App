@@ -9,7 +9,6 @@ class App extends Component {
   }
 
   componentDidMount(){
-    this.renderMap()
     this.getPlaces()
   }
 
@@ -29,7 +28,7 @@ class App extends Component {
     }
     axios.get(request + new URLSearchParams(para))
     .then(r =>{
-      this.setState({places:r.data.response.groups[0].items})
+      this.setState({places:r.data.response.groups[0].items},this.renderMap())
     }).catch(err=>{
       alert(err)
     })
@@ -40,6 +39,30 @@ class App extends Component {
       center: {lat: 45.421532, lng: -75.697189},
       zoom: 13
     });
+
+    this.state.places.map(place => {
+      const marker = new window.google.maps.Marker({
+        position: {lat:place.venue.location.lat , lng:place.venue.location.lng},
+        map: map,
+        title: 'Hello World!'
+      });
+
+      const contentString= 
+      `<div> 
+        <h2>${place.venue.name}</h2>
+        <p> Address: ${place.venue.location.address}</p>
+        <p> ${place.venue.categories[0].name}'</p> 
+        <img srcSet=${place.venue.categories[0].icon.prefix} + 'alt="icon">
+      </div>`
+      
+
+      const infowindow = new window.google.maps.InfoWindow({
+        content: contentString
+      });
+      marker.addListener('click', function() {
+        infowindow.open(map, marker);
+      });
+    })
   }
 
 
