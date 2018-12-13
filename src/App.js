@@ -1,22 +1,44 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 import './App.css';
 
 class App extends Component {
 
+  state={
+    places:[]
+  }
 
   componentDidMount(){
     this.renderMap()
+    this.getPlaces()
   }
 
   renderMap=()=>{
   loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyCjv-FGIJvul6AZgtTJocMdfmJ38LiKBkQ&callback=initMap")
   window.initMap=this.initMap
   }
+    //Fetch Places nearBy using Foresquare Places API
+  getPlaces =()=>{
+    const request="https://api.foursquare.com/v2/venues/explore?"
+    const para ={
+      client_id:"THNLREOGUI3VBQ2UA0U2GLJTAGBVBP03Z23XV5LQODRUAURI",
+      client_secret:"VM4TNNUNB2CRYBOIWL1IZLZLOK2GPRHLBUUECQEIM0RQGZXX",
+      query:"food",
+      near:"Ottawa",
+      v:20181213
+    }
+    axios.get(request + new URLSearchParams(para))
+    .then(r =>{
+      this.setState({places:r.data.response.groups[0].items})
+    }).catch(err=>{
+      alert(err)
+    })
+  }
 
   initMap=()=> {
    const  map = new window.google.maps.Map(document.getElementById('map'), {
-      center: {lat: -34.397, lng: 150.644},
-      zoom: 8
+      center: {lat: 45.421532, lng: -75.697189},
+      zoom: 13
     });
   }
 
