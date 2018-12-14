@@ -5,7 +5,8 @@ import './App.css';
 class App extends Component {
 
   state={
-    places:[]
+    places:[],
+
   }
 
   componentDidMount(){
@@ -33,37 +34,49 @@ class App extends Component {
       alert(err)
     })
   }
-
+    // Function to start the map after getting data from Foursqure API
   initMap=()=> {
    const  map = new window.google.maps.Map(document.getElementById('map'), {
       center: {lat: 45.421532, lng: -75.697189},
-      zoom: 13
+      zoom: 15
     });
+
+    const infowindow = new window.google.maps.InfoWindow();
+
 
     this.state.places.map(place => {
       const marker = new window.google.maps.Marker({
         position: {lat:place.venue.location.lat , lng:place.venue.location.lng},
         map: map,
-        title: 'Hello World!'
+        animation: window.google.maps.Animation.DROP,
+        id:place.venue.id
       });
 
-      const contentString= 
+       const contentString= 
       `<div> 
         <h2>${place.venue.name}</h2>
         <p> Address: ${place.venue.location.address}</p>
         <p> ${place.venue.categories[0].name}'</p> 
         <img srcSet=${place.venue.categories[0].icon.prefix} + 'alt="icon">
       </div>`
-      
-
-      const infowindow = new window.google.maps.InfoWindow({
-        content: contentString
-      });
-      marker.addListener('click', function() {
-        infowindow.open(map, marker);
+      marker.addListener('click', function(){
+          populateInfoWindow(this,infowindow,contentString)
       });
     })
+    function populateInfoWindow(marker, infowindow,contentString) {
+      // Check to make sure the infowindow is not already opened on this marker.
+      if (infowindow.marker !== marker) {
+        infowindow.marker = marker;
+        infowindow.setContent(contentString);
+        infowindow.open(map, marker);
+        // Make sure the marker property is cleared if the infowindow is closed.
+        infowindow.addListener('closeclick',function(){
+          infowindow.setMarker = null;
+        });
+      }
+    }
   }
+
 
 
   render() {
