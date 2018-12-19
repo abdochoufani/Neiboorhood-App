@@ -1,16 +1,25 @@
 import React, { Component } from 'react';
 import axios from 'axios'
+import escapeRegExp from 'escape-string-regexp'
 import './App.css';
+import ListView from './ListView';
 
 class App extends Component {
 
   state={
     places:[],
+    map:{},
+    markers:[],
+    infowindows:[],
+    query:'',
+    notVisibleMarkers:[],
+    showingPlaces:[]
 
   }
 
   componentDidMount(){
     this.getPlaces()
+    this.setState({showingPlaces:this.state.places})
   }
 
   renderMap=()=>{
@@ -25,6 +34,7 @@ class App extends Component {
       client_secret:"VM4TNNUNB2CRYBOIWL1IZLZLOK2GPRHLBUUECQEIM0RQGZXX",
       query:"food",
       near:"Ottawa",
+      limit:10,
       v:20181213
     }
     axios.get(request + new URLSearchParams(para))
@@ -40,7 +50,8 @@ class App extends Component {
       center: {lat: 45.421532, lng: -75.697189},
       zoom: 15
     });
-
+    this.setState({map})
+    
     const infowindow = new window.google.maps.InfoWindow();
 
 
@@ -48,9 +59,11 @@ class App extends Component {
       const marker = new window.google.maps.Marker({
         position: {lat:place.venue.location.lat , lng:place.venue.location.lng},
         map: map,
+        title:place.venue.name,
         animation: window.google.maps.Animation.DROP,
         id:place.venue.id
       });
+      this.state.markers.push(marker)
 
        const contentString= 
       `<div> 
@@ -78,11 +91,50 @@ class App extends Component {
   }
 
 
+    updateQuery=(query)=>{
+      this.setState({query:query.trim()})
+      this.state.markers.map(marker => marker.setVisible(true))
+      let showingPlaces
+      let notVisibleMarkers
+      if(query){
+        const match = new RegExp(escapeRegExp(query),'i');
+        showingPlaces=this.state.places.filter((place)=> match.test(place.venue.name))
+        this.setState({showingPlaces})
+        notVisibleMarkers=this.state.markers.filter(marker =>
+          showingPlaces.every(place => place.venue.name !== marker.title)
+        )
+        notVisibleMarkers.forEach(marker => marker.setVisible(false))
+        this.setState({notVisibleMarkers})
+      }else {
+        this.setState({notVisibleMarkers:[]})
+        this.setState({showingPlaces:this.state.places})
+        this.state.markers.forEach(marker => marker.setVisible(true))
+      }
+      
+    }
+
+    clearQuery=()=>{
+      this.setState({query:""})
+    }
+
 
   render() {
     return (
       <div className="App">
-        <div id="map"></div>
+      <div className="container">
+        <div className="row">
+          <div className="col-md-4 col-sm-4">
+      <ListView places={this.state.places}
+                query={this.state.query}
+                showingPlaces={this.state.showingPlaces}
+                updateQuery={this.updateQuery}
+                clearQuery={this.clearQuery}/>
+          </div>
+          <div className="col-md-8 col-sm-8">
+            <div id="map"></div>
+          </div>
+        </div>
+      </div>
       </div>
     );
   }
