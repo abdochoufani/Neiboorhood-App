@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios'
+import Header from './Header'
 import escapeRegExp from 'escape-string-regexp'
 import './App.css';
+import List from'./CompleteList'
+import SearchBar from './SearchBar';
 import ListView from './ListView';
+
 
 class App extends Component {
 
@@ -13,7 +17,8 @@ class App extends Component {
     infowindows:[],
     query:'',
     notVisibleMarkers:[],
-    showingPlaces:[]
+    showingPlaces:[],
+    listView:false
 
   }
 
@@ -113,29 +118,45 @@ class App extends Component {
       
     }
 
-    clearQuery=()=>{
-      this.setState({query:""})
+    clearList=()=>{
+      this.setState({listView:false})
+      document.getElementById('show-btn').style.display='initial'
     }
+
+    showList=()=>{
+      this.setState({query:""})
+      this.setState({listView:true})
+      document.getElementById('show-btn').style.display='none'
+    }
+
 
 
   render() {
     return (
-      <div className="App">
-      <div className="container">
-        <div className="row">
-          <div className="col-md-4 col-sm-4">
-      <ListView places={this.state.places}
-                query={this.state.query}
-                showingPlaces={this.state.showingPlaces}
-                updateQuery={this.updateQuery}
-                clearQuery={this.clearQuery}/>
-          </div>
-          <div className="col-md-8 col-sm-8">
-            <div id="map"></div>
-          </div>
+      <div>
+        <div>
+          <Header/>
         </div>
-      </div>
-      </div>
+        <div className="search-container">
+          <SearchBar places={this.state.places} query={this.state.query} updateQuery={this.updateQuery}/>
+          <button id="show-btn" className="btn list" onClick={()=>{
+            this.showList()
+          }
+          }> List View</button>
+        </div> 
+          { this.state.listView && (
+            <div className="text-center">
+              <button className="btn list-btn list" onClick={()=>{
+              this.clearList()}}> Hide List</button>
+              <List places={this.state.places}/>
+            </div>
+          )}
+            {this.state.query && (
+              <ListView places={this.state.places} showingPlaces={this.state.showingPlaces} query={this.state.query}/>
+            )}
+            <div id="map"></div>
+        </div>
+     
     );
   }
 }
