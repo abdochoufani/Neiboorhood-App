@@ -144,11 +144,17 @@ class App extends Component {
           }
           }> List View</button>
         </div> 
-          { this.state.listView && (
-            <div className="text-center">
-              <button className="btn list-btn list" onClick={()=>{
+          { (this.state.listView && this.state.query==='') && (
+             <div className="container-fluid">
+             <ol className="lsit-group">
+             <button className="btn list-btn list" onClick={()=>{
               this.clearList()}}> Hide List</button>
-              <List places={this.state.places}/>
+                 {this.state.places.map(place =>(
+            <div className="text-center">
+              <List place={place}/>
+            </div>
+              ))}
+            </ol>
             </div>
           )}
             {this.state.query && (

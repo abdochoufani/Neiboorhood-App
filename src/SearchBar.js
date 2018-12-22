@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 export default class SearchBar extends Component {
   render() {
-      const { query, updateQuery, places } =this.props
+      const {  updateQuery } =this.props
     return (
    <div> 
          <div className="container">

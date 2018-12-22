@@ -1,3 +1,8 @@
+*{
+  font-family: 'Raleway', sans-serif;
+}
+
+
 .App {
   text-align: center;
 }
@@ -8,7 +13,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 10vh;
+  min-height: 2vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -53,7 +58,7 @@ html, body {
 }
 #show-btn{
   height:5vh;
-  margin-bottom: 2%
+  margin: 2% 0
 }
 
 .list:hover {
