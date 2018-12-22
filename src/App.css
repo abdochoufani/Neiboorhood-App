@@ -73,3 +73,7 @@ html, body {
   background-color: #282c34 !important;
   color: #61dafb;
 }
+
+#no-show{
+  display: none
+}

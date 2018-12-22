@@ -18,7 +18,8 @@ class App extends Component {
     query:'',
     notVisibleMarkers:[],
     showingPlaces:[],
-    listView:false
+    listView:false,
+    reset:false
 
   }
 
@@ -53,7 +54,7 @@ class App extends Component {
   initMap=()=> {
    const  map = new window.google.maps.Map(document.getElementById('map'), {
       center: {lat: 45.421532, lng: -75.697189},
-      zoom: 15
+      zoom: 10
     });
     this.setState({map})
     
@@ -130,6 +131,9 @@ class App extends Component {
     }
 
 
+    toogleReset=()=>{
+      this.setState({reset:!this.state.reset})
+    }
 
   render() {
     return (
@@ -151,14 +155,23 @@ class App extends Component {
               this.clearList()}}> Hide List</button>
                  {this.state.places.map(place =>(
             <div className="text-center">
-              <List place={place}/>
+              <List place={place} updateQuery={this.updateQuery}
+               markers={this.state.markers} 
+              reset={this.state.reset}
+              toogleReset={this.toogleReset}/>
             </div>
               ))}
             </ol>
             </div>
           )}
             {this.state.query && (
-              <ListView places={this.state.places} showingPlaces={this.state.showingPlaces} query={this.state.query}/>
+              <ListView places={this.state.places} 
+              showingPlaces={this.state.showingPlaces}
+              reset={this.state.reset}
+              query={this.state.query}
+              markers={this.state.markers} 
+              toogleReset={this.toogleReset}
+              showList={this.showList}/>
             )}
             <div id="map"></div>
         </div>
