@@ -17,7 +17,7 @@ Fouresqure API
 
 Google Maps API
 
-##In the project directory,  run:
+## In the project directory,  run:
 
 ### `npm install`
 
