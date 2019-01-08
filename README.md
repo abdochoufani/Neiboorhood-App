@@ -19,7 +19,7 @@ Google Maps API
 
 ##In the project directory,  run:
 
-### `npm install
+### `npm install`
 
 ### `npm start`
 
