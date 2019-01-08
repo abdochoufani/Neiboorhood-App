@@ -79,6 +79,12 @@ class App extends Component {
       </div>`
       marker.addListener('click', function(){
           populateInfoWindow(this,infowindow,contentString)
+          if (marker.getAnimation() !== null) {
+            marker.setAnimation(null);
+          } else {
+            marker.setAnimation(window.google.maps.Animation.BOUNCE);
+            setTimeout(() => {marker.setAnimation(null);}, 300)
+          }
       });
     })
     function populateInfoWindow(marker, infowindow,contentString) {
@@ -113,7 +119,16 @@ class App extends Component {
       }else {
         this.setState({notVisibleMarkers:[]})
         this.setState({showingPlaces:this.state.places})
-        this.state.markers.forEach(marker => marker.setVisible(true))
+        this.state.markers.forEach(function(marker){ 
+          marker.setVisible(true)
+          if (marker.getAnimation() !== null) {
+            marker.setAnimation(null);
+          } else {
+            marker.setAnimation(window.google.maps.Animation.BOUNCE);
+            setTimeout(() => {marker.setAnimation(null);}, 300)
+          }
+        }
+        )
       }
       
     }
