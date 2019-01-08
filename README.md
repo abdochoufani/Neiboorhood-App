@@ -7,9 +7,9 @@ This app is a restaurant finder in the city of Ottawa.
 You can view the restaurant information through a list view or a throught the map
 
 
-##API
+## API
 
-This project uses:
+### This project uses:
 
 React Framework
 
