@@ -54,7 +54,7 @@ class App extends Component {
   initMap=()=> {
    const  map = new window.google.maps.Map(document.getElementById('map'), {
       center: {lat: 45.421532, lng: -75.697189},
-      zoom: 10
+      zoom: 13
     });
     this.setState({map})
     
@@ -75,8 +75,7 @@ class App extends Component {
       `<div> 
         <h2>${place.venue.name}</h2>
         <p> Address: ${place.venue.location.address}</p>
-        <p> ${place.venue.categories[0].name}'</p> 
-        <img srcSet=${place.venue.categories[0].icon.prefix} + 'alt="icon">
+        <p> ${place.venue.categories[0].name}</p> 
       </div>`
       marker.addListener('click', function(){
           populateInfoWindow(this,infowindow,contentString)
@@ -187,6 +186,9 @@ function loadScript(src){
   script.async=true
   script.defer=true
   index.parentNode.insertBefore(script,index)
+  script.onerror = function() {
+    alert("Error loading map! Check the URL!")
+  };
 }
 
 export default App;

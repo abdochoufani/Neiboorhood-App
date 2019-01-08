@@ -20,7 +20,7 @@ export default class List extends Component {
       const {place,updateQuery, toogleReset}=this.props
     return (
                 <div>
-                    <button key={place.venue.id} className="list-group-item list" onClick={this.toggle}><i>{place.venue.name}</i></button>
+                    <button key={place.venue.id} className="list-group-item list complete-list" onClick={this.toggle}><i>{place.venue.name}</i></button>
                     
                     <div className={"collapse " + show}>  
                         <div className="card card-body"> 

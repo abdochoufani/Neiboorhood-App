@@ -8,7 +8,8 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 10vmin;
+  padding-top: 1% 
 }
 
 .App-header {
@@ -50,11 +51,17 @@ html, body {
   height:20%;
 }
 
+
 .list{
   color: #61dafb;
   background-color: #282c34;
   border-bottom: #61dafb 1px solid;
   min-width: 100%;
+}
+
+.list a {
+  color: #61dafb;
+  text-decoration: none;
 }
 #show-btn{
   height:5vh;
@@ -67,6 +74,10 @@ html, body {
 
 .center{
   align-content: center
+}
+
+.complete-list{
+  margin-top:1%;
 }
 
 .list-btn{

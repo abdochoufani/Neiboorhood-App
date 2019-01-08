@@ -13,7 +13,7 @@ export default class ListView extends Component {
                   ))
               ) }
               { reset===true && (
-                              <a  href="#map" onClick={()=>{
+                              <a  href="#" onClick={()=>{
                                   markers.map(marker => marker.setVisible(true))
                                   toogleReset()
                                   showList()
