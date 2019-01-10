@@ -121,16 +121,21 @@ class App extends Component {
         this.setState({showingPlaces:this.state.places})
         this.state.markers.forEach(function(marker){ 
           marker.setVisible(true)
-          if (marker.getAnimation() !== null) {
-            marker.setAnimation(null);
-          } else {
-            marker.setAnimation(window.google.maps.Animation.BOUNCE);
-            setTimeout(() => {marker.setAnimation(null);}, 300)
-          }
+          
         }
         )
       }
       
+    }
+
+    animateMarkers=()=>{
+      this.state.markers.forEach(marker=>{
+        marker.setAnimation(window.google.maps.Animation.BOUNCE);
+          setTimeout(function () {
+            marker.setAnimation(null);
+          }, 1000);
+        }
+      )
     }
 
     clearList=()=>{
@@ -172,7 +177,8 @@ class App extends Component {
               <List place={place} updateQuery={this.updateQuery}
                markers={this.state.markers} 
               reset={this.state.reset}
-              toogleReset={this.toogleReset}/>
+              toogleReset={this.toogleReset}
+              animate={this.animateMarkers}/>
             </div>
               ))}
             </ol>
@@ -185,7 +191,8 @@ class App extends Component {
               query={this.state.query}
               markers={this.state.markers} 
               toogleReset={this.toogleReset}
-              showList={this.showList}/>
+              showList={this.showList}
+              animate={this.animateMarkers}/>
             )}
             <div id="map"></div>
         </div>

@@ -30,6 +30,7 @@ export default class List extends Component {
                             <a href="#map" onClick={()=>{
                               updateQuery(place.venue.name)
                               toogleReset()
+                              this.props.animate()
                             }}>Show on map</a>
                            
                         </div>
