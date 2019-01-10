@@ -8,7 +8,7 @@ export default class ListView extends Component {
           <ul className="list-group">
               { query && (
                   showingPlaces.map( place =>(
-                      <li key={place.venue.name} className="list-group-item list"><a href="#map">{place.venue.name}</a></li>
+                      <li key={place.venue.name} className="list-group-item list"><a href="#map" onClick={()=>this.props.animate()}>{place.venue.name}</a></li>
                       
                   ))
               ) }
